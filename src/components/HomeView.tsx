@@ -1,12 +1,20 @@
 import { Image as ImageIcon, PenTool, Type, Mic, ArrowRight } from 'lucide-react';
 
-export default function HomeView({ setView }: { setView: (v: string) => void }) {
+interface HomeViewProps {
+  setView: (view: any) => void;
+  searchQuery?: string;
+}
+
+export default function HomeView({ setView, searchQuery = '' }: HomeViewProps) {
   const tools = [
     { id: 'remover', icon: <ImageIcon size={22} className="text-[#8319da]" />, title: 'Background Remover', desc: 'Instantly remove backgrounds from any image with AI-powered precision.', color: 'bg-[#e2e7ff]' },
     { id: 'svg', icon: <PenTool size={22} className="text-[#006286]" />, title: 'SVG Editor', desc: 'Create and edit scalable vector graphics with intuitive path tools.', color: 'bg-[#b6e3ff]' },
     { id: 'typo', icon: <Type size={22} className="text-[#a02d70]" />, title: 'Typography Stylist', desc: 'Pair fonts, adjust kerning, and apply premium text effects instantly.', color: 'bg-[#ffcce7]' },
     { id: 'audio', icon: <Mic size={22} className="text-[#7500c8]" />, title: 'Audio Enhancer', desc: 'Clean up voice recordings and add subtle ambient mastering effects.', color: 'bg-[#e8d2ff]' }
-  ];
+  ].filter(tool => 
+    tool.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    tool.desc.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="p-8 max-w-7xl mx-auto h-full flex flex-col">
